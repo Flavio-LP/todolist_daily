@@ -1,0 +1,20 @@
+{
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.13",
+    "vite-plugin-ruby": "^5.2.2"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.100.11",
+    "@vitejs/plugin-react": "^6.0.2",
+    "axios": "^1.16.1",
+    "bootstrap": "^5.3.8",
+    "date-fns": "^4.2.1",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
+  }
+}
