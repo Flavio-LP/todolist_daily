@@ -9,28 +9,29 @@ module Api
       end
 
       def create
-        recurring_task = RecurringTask.new(recurring_task_params)
+        result = RecurringTasks::Create.call(params: recurring_task_params)
 
-        if recurring_task.save
-          render json: recurring_task, status: :created
+        if result.success?
+          render json: result.recurring_task, status: :created
         else
-          render json: { errors: recurring_task.errors.full_messages }, status: :unprocessable_entity
+          render json: { errors: result.errors }, status: :unprocessable_entity
         end
       end
 
       def update
         recurring_task = RecurringTask.find(params[:id])
+        result = RecurringTasks::Update.call(recurring_task: recurring_task, params: recurring_task_params)
 
-        if recurring_task.update(recurring_task_params)
-          render json: recurring_task
+        if result.success?
+          render json: result.recurring_task
         else
-          render json: { errors: recurring_task.errors.full_messages }, status: :unprocessable_entity
+          render json: { errors: result.errors }, status: :unprocessable_entity
         end
       end
 
       def destroy
         recurring_task = RecurringTask.find(params[:id])
-        recurring_task.destroy
+        RecurringTasks::Destroy.call(recurring_task: recurring_task)
         head :no_content
       end
 

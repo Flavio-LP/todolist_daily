@@ -21,15 +21,10 @@ export function App() {
         </div>
       </nav>
 
+      <CalendarView selectedDate={selectedDate} onDateSelect={setSelectedDate} />
+
       <div className="container py-4">
-        <div className="row g-4">
-          <div className="col-12 col-md-4 col-lg-3">
-            <CalendarView selectedDate={selectedDate} onDateSelect={setSelectedDate} />
-          </div>
-          <div className="col-12 col-md-8 col-lg-9">
-            <TaskList selectedDate={selectedDate} />
-          </div>
-        </div>
+        <TaskList selectedDate={selectedDate} />
       </div>
 
       {showRecurring && (

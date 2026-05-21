@@ -8,6 +8,8 @@ gem "jbuilder"
 gem "vite_rails"
 gem "rack-cors"
 
+gem "interactor", "~> 3.1"
+
 gem "redis", "~> 5.0"
 gem "sidekiq", "~> 7.0"
 gem "sidekiq-cron", "~> 1.12"
