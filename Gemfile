@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 gem "rails", "~> 8.0.4"
 gem "propshaft"
-gem "pg", "~> 1.5"
+gem "pg", "~> 1.6"
 gem "puma", ">= 5.0"
 gem "jbuilder"
 gem "vite_rails"
