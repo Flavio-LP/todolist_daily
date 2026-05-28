@@ -12,7 +12,7 @@ gem "interactor", "~> 3.1"
 
 gem "redis", "~> 5.0"
 gem "sidekiq", "~> 7.0"
-gem "sidekiq-cron", "~> 1.12"
+gem "sidekiq-cron", "~> 2.4"
 
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem "bootsnap", require: false
