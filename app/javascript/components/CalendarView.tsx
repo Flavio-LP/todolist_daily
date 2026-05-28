@@ -6,7 +6,6 @@ import {
   eachDayOfInterval,
   isSameDay,
   isToday,
-  getDay,
   addMonths,
   subMonths,
 } from 'date-fns'
@@ -19,24 +18,27 @@ interface Props {
 
 export function CalendarView({ selectedDate, onDateSelect }: Props) {
   const [viewMonth, setViewMonth] = React.useState(new Date())
+  const selectedRef = React.useRef<HTMLButtonElement>(null)
 
   const days = eachDayOfInterval({
     start: startOfMonth(viewMonth),
     end: endOfMonth(viewMonth),
   })
 
-  const startPad = getDay(startOfMonth(viewMonth))
+  React.useEffect(() => {
+    selectedRef.current?.scrollIntoView({ inline: 'center', behavior: 'smooth', block: 'nearest' })
+  }, [selectedDate, viewMonth])
 
   return (
-    <div className="card shadow-sm">
-      <div className="card-header d-flex justify-content-between align-items-center bg-primary text-white">
+    <div className="bg-primary text-white px-3 py-2 shadow-sm">
+      <div className="d-flex align-items-center justify-content-between mb-2">
         <button
           className="btn btn-sm btn-outline-light"
           onClick={() => setViewMonth(subMonths(viewMonth, 1))}
         >
           ‹
         </button>
-        <span className="fw-semibold text-capitalize">
+        <span className="fw-semibold text-capitalize" style={{ fontSize: '0.9rem' }}>
           {format(viewMonth, 'MMMM yyyy', { locale: ptBR })}
         </span>
         <button
@@ -47,39 +49,47 @@ export function CalendarView({ selectedDate, onDateSelect }: Props) {
         </button>
       </div>
 
-      <div className="card-body p-2">
-        <div className="row row-cols-7 g-0 text-center mb-1">
-          {['D', 'S', 'T', 'Q', 'Q', 'S', 'S'].map((d, i) => (
-            <div key={i} className="col">
-              <small className="text-muted fw-semibold">{d}</small>
-            </div>
-          ))}
-        </div>
+      <div
+        style={{
+          display: 'flex',
+          overflowX: 'auto',
+          gap: 4,
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+        }}
+      >
+        {days.map(day => {
+          const isSelected = isSameDay(day, selectedDate)
+          const today = isToday(day)
 
-        <div className="row row-cols-7 g-0 text-center">
-          {Array.from({ length: startPad }).map((_, i) => (
-            <div key={`pad-${i}`} className="col" />
-          ))}
-          {days.map(day => {
-            const isSelected = isSameDay(day, selectedDate)
-            const today = isToday(day)
-
-            return (
-              <div key={day.toISOString()} className="col p-1">
-                <button
-                  onClick={() => onDateSelect(day)}
-                  className={[
-                    'btn btn-sm w-100 p-1 rounded-circle',
-                    isSelected ? 'btn-primary' : today ? 'btn-outline-primary' : 'btn-light',
-                  ].join(' ')}
-                  style={{ aspectRatio: '1', fontSize: '0.8rem' }}
-                >
-                  {format(day, 'd')}
-                </button>
-              </div>
-            )
-          })}
-        </div>
+          return (
+            <button
+              key={day.toISOString()}
+              ref={isSelected ? selectedRef : null}
+              onClick={() => onDateSelect(day)}
+              style={{
+                minWidth: 52,
+                flexShrink: 0,
+                background: isSelected ? 'white' : 'transparent',
+                color: isSelected ? 'var(--bs-primary)' : 'white',
+                border: today && !isSelected ? '1px solid rgba(255,255,255,0.7)' : 'none',
+                borderRadius: 8,
+                cursor: 'pointer',
+                padding: '4px 6px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
+            >
+              <small style={{ fontSize: '0.65rem', opacity: isSelected ? 1 : 0.85, textTransform: 'capitalize' }}>
+                {format(day, 'EEE', { locale: ptBR })}
+              </small>
+              <span style={{ fontSize: '1rem', fontWeight: isSelected || today ? 700 : 400 }}>
+                {format(day, 'd')}
+              </span>
+            </button>
+          )
+        })}
       </div>
     </div>
   )
