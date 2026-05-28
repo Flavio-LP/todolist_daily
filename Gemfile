@@ -11,7 +11,7 @@ gem "rack-cors"
 gem "interactor", "~> 3.1"
 
 gem "redis", "~> 5.0"
-gem "sidekiq", "~> 7.0"
+gem "sidekiq", "~> 8.1"
 gem "sidekiq-cron", "~> 1.12"
 
 gem "tzinfo-data", platforms: %i[ windows jruby ]
